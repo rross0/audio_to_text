@@ -49,4 +49,4 @@ txt_output <- as.data.frame(result)
 txt_input <- txt_output[1,4]
 txt_input
 
-save(txt_input, here::here("output_text.txt"))
+write.table(txt_input, here::here("audio_to_text", "text", "output_text.txt"))
