@@ -1,24 +1,25 @@
 # This is a demonstration of audio to text translation using 
 # Microsoft Azure's Cognitive Resources
-# Libraries
+# See https://rpubs.com/Ian_M/919060
 
 # ---- Setup ----
 library(audio); library(here)
 library(httr); library(jsonlite)
 
-source(here::here("azure_keys.R"))
+source(here::here("audio_to_text", "azure_keys.R"))
 
 # ----- Record audio -----
+# This is really buggy ! Package needs work
 #Set our recording time
 rec_time <- 5 
 
-Samples<-rep(NA_real_, 44100 * rec_time) #Defining number of samples recorded
+Samples<-rep(NA_real_, 20000 * rec_time) #Defining number of samples recorded
 print("Start speaking")
 audio_obj <- audio::record(Samples, 44100, 1) #Create an audio instance with sample rate 44100 and mono channel
 wait(6)
 rec <- audio_obj$data # get the recorded data from the audio object
 
-save.wave(rec, here::here("hello_tess.wav_here.wav"))
+save.wave(rec, here::here("audio_to_text", "hello_tess.wav_here.wav"))
 
 # ---- Transcribe----
 
@@ -34,7 +35,7 @@ params = list(
 )
 
 #Enter path to the audio file we just recorded and saved
-data = upload_file (here::here("hello_tess.wav_here.wav")) 
+data = upload_file (here::here("audio_to_text", "audio", "Hi Tess.wav")) 
 
 #Make the API call and save the response recived
 response <- httr::POST(url = 'https://eastus.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1', 
@@ -47,3 +48,5 @@ txt_output <- as.data.frame(result)
 #Extract transcribed text
 txt_input <- txt_output[1,4]
 txt_input
+
+save(txt_input, here::here("output_text.txt"))
