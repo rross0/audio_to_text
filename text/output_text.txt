@@ -1,0 +1,2 @@
+"x"
+"1" "A test I'm recording this audio that I'm going to then translate into text using Microsoft Azure's Cognitive Resources. Not training my own model, but I'm showing how you can use a pre trained model in Azure to do this."
